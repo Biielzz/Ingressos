@@ -2,18 +2,14 @@ package controller;
 import java.util.concurrent.Semaphore;
 public class Bilheteria extends Thread{
 
-private int Pessoa;
 private Semaphore semaforo;
 private static int ingressos = 100;
 private int idthread;
 
-public Bilheteria (int Pessoa, Semaphore semaforo) {
-this.Pessoa = Pessoa;
+public Bilheteria (int idthread, Semaphore semaforo) {
+this.idthread = idthread;
 this.semaforo = semaforo;
-}
 
-public void idthread (int idthread) {
-this.idthread = idthread;	
 }
 
 public void run () {
@@ -29,9 +25,9 @@ tempo = (int) ((int) ((Math.random()*1951)+50));
 try {
 	sleep(tempo);
 	if (tempo > 1000) {
-	System.out.println("TimeOut");	
+	System.out.println("Tempo esgotado!");	
 	}else
-System.out.println("O usuário #" + idthread + Pessoa + " conseguiu acessar!");
+System.out.println("O usuário #" + idthread + " conseguiu acessar!");
 Compra();
 
 } catch (InterruptedException e) {
@@ -43,18 +39,19 @@ Compra();
 public void Compra() {
 	
 int t = 0;
-t = (int) ((int) ((Math.random()*2000)+1000));
+t = (int) ((int) ((Math.random()*2001)+1000));
 	try {
 	sleep(t);
 if (t > 2500 ) {	
-	System.out.println("timeout!");
+	System.out.println("timeOut!");
 }else
-System.out.println("Validação da Compra: #" + idthread + Pessoa);
+System.out.println("Validação da Compra: #" + idthread);
 Validacao();
 	} catch (Exception e) {
 	e.printStackTrace();
 	}
 		}
+
 public void Validacao() {
 int ingre = (int) ((Math.random() *4) +1);
 try {
@@ -62,7 +59,7 @@ if (ingressos >= 4 ) {
 	ingressos-= ingre;
 semaforo.acquire();
 
-System.out.println("O usuário #" + idthread + Pessoa + " comprou: " + ingre + " ingressos. Sobraram somente: " + ingressos + " ingressos.");
+System.out.println("O usuário #" + idthread + " comprou: " + ingre + " ingressos. Sobraram somente: " + ingressos + " ingressos.");
 }else {
 System.out.println("ingressos esgotados");
 	}
